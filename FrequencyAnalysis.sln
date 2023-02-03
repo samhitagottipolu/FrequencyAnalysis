@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1703.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrequencyAnalysis", "FrequencyAnalysis\FrequencyAnalysis.csproj", "{CD9D005C-A9F5-4412-8D86-5FB028E9242B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6964C3D8-43BE-4500-94F6-D4A379F550F9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD9D005C-A9F5-4412-8D86-5FB028E9242B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD9D005C-A9F5-4412-8D86-5FB028E9242B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD9D005C-A9F5-4412-8D86-5FB028E9242B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD9D005C-A9F5-4412-8D86-5FB028E9242B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F57311D5-25B6-47AB-BA12-8DCA3CBDD73B}
+	EndGlobalSection
+EndGlobal
