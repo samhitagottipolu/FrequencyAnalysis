@@ -25,10 +25,12 @@ namespace FrequencyAnalysis.Models
             }
         }
 
+        /// <summary>
+        /// If the newly added child is smaller than the parent, swap. Rinse and repeat till heapified
+        /// </summary>
         public void FixHeapAbove(int index)
         {
             MinHeapNode newNode = minHeapNodes[index];
-            //if the newly added child is smaller than the parent, swap. Rinse and repeat till heapified
             while (index > 0 && newNode.frequency < minHeapNodes[GetParent(index)].frequency)
             {
                 MinHeapNode parentNode = minHeapNodes[GetParent(index)];
@@ -40,26 +42,6 @@ namespace FrequencyAnalysis.Models
 
             tokenMap[newNode.word].minHeapIndex = index;
             minHeapNodes[index] = newNode;
-        }
-
-        public void Delete(int index)
-        {
-            // Get the last element
-            MinHeapNode rightMostNode = minHeapNodes[size - 1];
-            MinHeapNode deletedNode = minHeapNodes[index];
-            int parent = GetParent(index);
-
-            //replace the deleted node with the last node
-            tokenMap[rightMostNode.word].minHeapIndex = tokenMap[deletedNode.word].minHeapIndex;
-            minHeapNodes[index] = rightMostNode;
-
-            //decrement the size and heapify
-            size--;
-            if (index == 0 || minHeapNodes[index].frequency > minHeapNodes[parent].frequency) //child node being greater than the parent satisfies the min heap property so fix anyting below
-                FixHeapBelow(index, size);
-            else
-                FixHeapAbove(index);
-
         }
 
         public void FixHeapBelow(int index, int lastHeapIndex)
