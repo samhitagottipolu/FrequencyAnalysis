@@ -15,11 +15,6 @@ public class HomeController : Controller
     private Dictionary<string, string> suffixes;
     private HashSet<string> stopWords;
 
-    public HomeController()
-    {
-       
-    }
-
     public IActionResult Index()
     {
         GetTopKFreqWords();
@@ -118,6 +113,7 @@ public class HomeController : Controller
         }
         
         WriteAnalysisToFile(k, minHeap, userFilePath, useStopWords, onlyStemWords);
+        PrintActualWords(tokenMap);
     }
 
     /// <summary>
@@ -145,22 +141,16 @@ public class HomeController : Controller
     /// </summary>
     public void LoadSuffixes()
     {
-        suffixes = new Dictionary<string, string>();
-        string s = "L LZ ZL ZQ EVM EZL PZL";
-        string[] suffixArr = s.Split(" ");
-
-        for (int i = 0; i < suffixArr.Length; i++)
+        suffixes = new Dictionary<string, string>
         {
-            string suffix = suffixArr[i];
-            if (suffix == "ZL")
-                suffixes[suffix] = "A";
-            else if (suffix == "PZL")
-                suffixes[suffix] = "AZ";
-            else if (suffix == "EZL")
-                suffixes[suffix] = "R";
-            else
-                suffixes[suffix] = string.Empty;
-        }
+            ["L"] = "",
+            ["LZ"] ="",
+            ["ZL"] = "A",
+            ["ZQ"] = "",
+            ["EVM"] = "",
+            ["EZL"] = "R",
+            ["PZL"] = "AZ"
+        };
     }
     #endregion
 
@@ -297,7 +287,7 @@ public class HomeController : Controller
 
             if (fileCount > 0)
             {
-                //sorts all the files by the datetime they were created
+                //sorts all the files by the datetime they were last written to
                 FileSystemInfo[] filesInfo = dirInfo.GetFileSystemInfos(outputFileName + "*").OrderBy(x => x.LastWriteTime).ToArray();
 
                 //If we've reach max file count, delete the oldest file to maintain the top 10 recent file analysis
@@ -352,11 +342,32 @@ public class HomeController : Controller
     }
 
     /// <summary>
-    /// Finds all words that are actual words and not root words that end with the given suffixes
+    /// Prints all words that are actual words and not root words that end with the given suffixes
     /// </summary>
-    public void FindActualWords(Dictionary<string,TokenFrequencyModel> tokenMap)
+    public void PrintActualWords(Dictionary<string,TokenFrequencyModel> tokenMap)
     {
-        var actualWords = tokenMap.Where(x => x.Value.frequency == x.Value.suffixFrequency && x.Value.suffixes.Count() == 1).Select(x => x.Key).ToList();
+        //Find all words that have the same frequency with or without the suffix making them an actual word.
+        var actualWords = tokenMap.
+            Where(x => x.Value.frequency == x.Value.suffixFrequency && x.Value.suffixes.Count() == 1).
+            Select(x => x.Key).ToList();
+
+        if (actualWords.Count() > 0)
+        {
+            //print them to the console
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Actual words that are not root words");
+            foreach (var actualWord in actualWords)
+            {
+                string s = tokenMap[actualWord].suffixes.First();
+                if (suffixes[s] != String.Empty)
+                {
+                    int toRemove = suffixes[s].Length;
+                    Console.WriteLine(actualWord.Substring(0, actualWord.Length - toRemove) + s);
+                }
+                else
+                    Console.WriteLine(actualWord + s);
+            }
+        }
     }
     #endregion
 }

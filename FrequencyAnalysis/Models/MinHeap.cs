@@ -81,12 +81,6 @@ namespace FrequencyAnalysis.Models
             }
         }
 
-        //TODO
-        public void Sort()
-        {
-           
-        }
-
         public int Peek()
         {
             return minHeapNodes[0].frequency;
